@@ -1,0 +1,54 @@
+{% extends 'default.html' %}
+{% load static %}
+
+{% block title %}
+Подробности
+{% endblock title %}
+
+{% block content %}
+<h1>Заголовок {{ post.title }}</h1>
+<p>Текст  {{ post.text }}</p>
+<p>Опубликовано {{ post.creationDate | date:'d.m.y в h:i' }}</p>
+<p> Категория {{ post.categoryType }}</p>
+<p>Автор  {{ post.avthor }}</p>
+{% if post.image %}
+<p> Изображение  {{ post.postImage }}</p>
+<img  src="{{MEDIA_URL}}{{post.image.url}}">
+{% endif %}
+<a href="{% url 'edit' post.id %}"><u>Редактировать</u></a>
+<a href="{% url 'delete' post.id %}"><u>Удалить</u></a>
+<br>
+<h2>Комментарий</h2>
+{% for comment in comments %}
+    <div class="comment">
+        <div>
+        <span>
+          <strong class="text-info">{{ comment.userEditor }} </strong>
+          <small class="text-muted">{{ comment.creationDate }}</small>
+        </span>
+        <p>
+          {{ comment.commentText|safe }}
+        </p>
+      </div>
+        {% if post.avthor.pk == request.user.pk %}
+        {% include 'comments.html' %}
+        {% for reply in comment.comment_set.all %}
+        <div class="reply">
+            <a href="{% url 'comments' post.id %}">{{ comment.commentText}}Откликнуться</a>
+                <p></p>
+        {% endfor %}
+        {% endif %}
+        </div>
+
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<form method="post" action="{% url 'detali' post.id%}">
+    {% csrf_token %}
+    {{ comment_form }}
+    <button type="submit">Комментарий</button>
+</form>
+
+{% endblock  %}

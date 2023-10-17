@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+{% load static %}
+
+
+{% block content %}
+    <br>
+    <h3>Редактирование объявления:</h3><br>
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+        {{ form }}
+        {{ form.media }}
+		<input class="btn btn-secondary" type="submit" value="Сохранить">
+	</form>
+{% endblock content %}
+

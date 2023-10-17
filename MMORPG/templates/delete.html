@@ -1,0 +1,27 @@
+{% extends 'default.html' %}
+ 
+
+ 
+{% block content %}
+<h4>Вы действительно хотите удалить данный пост?</h4>
+<table>
+    <thead>
+        <th>Автор</th>
+        <th >Заголовок</th>
+
+        <th>Текст</th>
+    </thead>
+    <tr>
+        <td>{{ post.avthor|title }}</td>
+        <td>{{ post.title }}</td>
+
+    </tr>
+</table>
+<br>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+    <br>
+    <a href="/"> Все посты </a>
+{% endblock content %}
